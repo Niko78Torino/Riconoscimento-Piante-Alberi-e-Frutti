@@ -116,14 +116,36 @@
         #privacy-modal {
             transition: opacity 0.3s ease;
         }
+        #language-selector {
+            background-color: #f9fafb;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            padding: 0.5rem;
+            box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+        }
     </style>
 </head>
 <body class="text-gray-800">
 
     <div class="container">
-        <div class="text-center mb-8">
-            <h1 class="text-4xl font-bold text-green-800">🌿 Riconoscimento Piante, Alberi e Frutti</h1>
-            <p class="text-lg text-green-700 mt-2">Carica una foto e scegli quali informazioni scoprire sulla pianta, l'albero o il frutto.</p>
+        <div class="text-center mb-4">
+            <h1 class="text-4xl font-bold text-green-800" data-translate="main_title">Riconoscimento Piante, Alberi e Frutti</h1>
+            <p class="text-lg text-green-700 mt-2" data-translate="subtitle">Carica una foto e scegli quali informazioni scoprire sulla pianta, l'albero o il frutto.</p>
+        </div>
+
+        <!-- Selettore Lingua -->
+        <div class="text-center mb-6">
+            <label for="language-selector" class="sr-only">Seleziona Lingua</label>
+            <select id="language-selector" class="text-sm">
+                <option value="it">Italiano</option>
+                <option value="en">English</option>
+                <option value="fr">Français</option>
+                <option value="de">Deutsch</option>
+                <option value="zh">中文 (Cinese)</option>
+                <option value="ja">日本語 (Giapponese)</option>
+                <option value="ar">العربية (Arabo)</option>
+                <option value="ru">Русский (Russo)</option>
+            </select>
         </div>
 
         <div class="card">
@@ -134,10 +156,10 @@
                     <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
                         <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
-                    <p class="mt-2 text-sm text-gray-600">
+                    <p class="mt-2 text-sm text-gray-600" data-translate="upload_prompt">
                         <span class="font-semibold text-green-600">Clicca per caricare</span> o trascina un'immagine
                     </p>
-                    <p class="text-xs text-gray-500">PNG, JPG, GIF fino a 10MB</p>
+                    <p class="text-xs text-gray-500" data-translate="upload_hint">PNG, JPG, GIF fino a 10MB</p>
                 </div>
             </div>
 
@@ -147,31 +169,31 @@
                 
                 <!-- Opzioni di Analisi -->
                 <div id="analysis-options" class="text-left mt-6">
-                    <h3 class="font-semibold text-lg text-gray-700 mb-3">Scegli cosa analizzare:</h3>
+                    <h3 class="font-semibold text-lg text-gray-700 mb-3" data-translate="options_title">Scegli cosa analizzare:</h3>
                     <div class="options-grid">
                         <label class="option-label">
-                            <input type="checkbox" id="opt-poisonous" class="h-4 w-4 mr-3">
-                            <span>È velenosa?</span>
+                            <input type="checkbox" id="opt-poisonous" class="h-4 w-4 mx-2">
+                            <span data-translate="opt_poisonous">È velenosa?</span>
                         </label>
                         <label class="option-label">
-                            <input type="checkbox" id="opt-culinary" class="h-4 w-4 mr-3">
-                            <span>Usi in cucina</span>
+                            <input type="checkbox" id="opt-culinary" class="h-4 w-4 mx-2">
+                            <span data-translate="opt_culinary">Usi in cucina</span>
                         </label>
                         <label class="option-label">
-                            <input type="checkbox" id="opt-medicinal" class="h-4 w-4 mr-3">
-                            <span>Proprietà medicinali</span>
+                            <input type="checkbox" id="opt-medicinal" class="h-4 w-4 mx-2">
+                            <span data-translate="opt_medicinal">Proprietà medicinali</span>
                         </label>
                         <label class="option-label">
-                            <input type="checkbox" id="opt-care" class="h-4 w-4 mr-3">
-                            <span>Cura e manutenzione</span>
+                            <input type="checkbox" id="opt-care" class="h-4 w-4 mx-2">
+                            <span data-translate="opt_care">Cura e manutenzione</span>
                         </label>
                     </div>
                 </div>
 
-                <button id="recognize-btn" class="mt-6 w-full bg-green-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-green-700 transition duration-300 disabled:bg-gray-400">
+                <button id="recognize-btn" class="mt-6 w-full bg-green-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-green-700 transition duration-300 disabled:bg-gray-400" data-translate="analyze_button">
                     Analizza
                 </button>
-                 <button id="reset-btn" class="mt-2 w-full bg-gray-200 text-gray-700 font-bold py-2 px-4 rounded-lg hover:bg-gray-300 transition duration-300">
+                 <button id="reset-btn" class="mt-2 w-full bg-gray-200 text-gray-700 font-bold py-2 px-4 rounded-lg hover:bg-gray-300 transition duration-300" data-translate="reset_button">
                     Carica un'altra immagine
                 </button>
             </div>
@@ -180,7 +202,7 @@
         <!-- Risultato -->
         <div id="loader" class="hidden">
             <div class="loader"></div>
-            <p class="text-center text-green-700">Analisi in corso...</p>
+            <p class="text-center text-green-700" data-translate="loader_text">Analisi in corso...</p>
         </div>
         <div id="result-card" class="card mt-8 hidden">
             <!-- Il contenuto del risultato verrà inserito qui -->
@@ -191,19 +213,19 @@
 
         <!-- Disclaimer -->
         <div class="disclaimer-card">
-            <h4>
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <h4 data-translate="disclaimer_title">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mx-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                 </svg>
                 Avviso Importante
             </h4>
-            <p>
+            <p data-translate="disclaimer_p1">
                 Le informazioni fornite da questa applicazione sono generate da un'intelligenza artificiale e sono da intendersi esclusivamente a scopo informativo ed educativo. L'identificazione di piante, alberi e frutti potrebbe non essere accurata o completa.
             </p>
-            <p class="mt-2">
+            <p class="mt-2" data-translate="disclaimer_p2">
                 <strong>Non fare affidamento su queste informazioni per decisioni mediche, culinarie o di altro tipo.</strong> Il consumo di una pianta o di un frutto errato può avere conseguenze gravi per la salute. Consulta sempre un esperto qualificato (come un botanico, un medico o un tossicologo) prima di consumare o utilizzare qualsiasi pianta per scopi medicinali o culinari.
             </p>
-             <p class="mt-2">
+             <p class="mt-2" data-translate="disclaimer_p3">
                 Lo sviluppatore, Nicola Nicolaci, non si assume alcuna responsabilità per eventuali errori, omissioni o per qualsiasi conseguenza derivante dall'uso delle informazioni fornite da questa applicazione. Utilizzando questo strumento, accetti di assumerti la piena responsabilità delle tue azioni.
             </p>
         </div>
@@ -215,33 +237,33 @@
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mr-2 -mt-1" viewBox="0 0 20 20" fill="currentColor">
                 <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd" />
             </svg>
-            Supporta il Progetto
+            <span data-translate="support_button">Supporta il Progetto</span>
         </a>
     </div>
 
     <footer class="text-center py-4 text-sm text-gray-500">
-        <p>© 2024 Nicola Nicolaci. Tutti i diritti riservati. | <a href="#" id="privacy-link" class="hover:underline text-green-700 font-semibold">Privacy e Contatti</a></p>
+        <p>© 2024 Nicola Nicolaci. <span data-translate="rights_reserved">Tutti i diritti riservati.</span> | <a href="#" id="privacy-link" class="hover:underline text-green-700 font-semibold" data-translate="privacy_link">Privacy e Contatti</a></p>
     </footer>
 
     <!-- Modale Privacy -->
     <div id="privacy-modal" class="fixed inset-0 bg-black bg-opacity-60 hidden flex items-center justify-center p-4 z-50">
         <div class="bg-white rounded-lg shadow-xl p-8 max-w-2xl w-full transform transition-all" id="modal-content">
             <div class="flex justify-between items-center mb-4">
-                <h3 class="text-2xl font-bold text-green-800">Privacy Policy e Contatti</h3>
-                <button id="close-modal-btn" class="text-gray-500 hover:text-gray-800">&times;</button>
+                <h3 class="text-2xl font-bold text-green-800" data-translate="modal_title">Privacy Policy e Contatti</h3>
+                <button id="close-modal-btn" class="text-gray-500 hover:text-gray-800 text-3xl">&times;</button>
             </div>
             <div class="text-left text-gray-700 space-y-4">
                 <div>
-                    <h4 class="font-bold text-lg mb-2">La Tua Privacy è Importante</h4>
-                    <p>Questa applicazione è stata creata con il massimo rispetto per la tua privacy. Non vengono raccolti, tracciati, venduti o memorizzati dati personali o di utilizzo di alcun tipo. Non utilizziamo cookie o altri sistemi di tracciamento.</p>
+                    <h4 class="font-bold text-lg mb-2" data-translate="modal_privacy_title">La Tua Privacy è Importante</h4>
+                    <p data-translate="modal_privacy_p1">Questa applicazione è stata creata con il massimo rispetto per la tua privacy. Non vengono raccolti, tracciati, venduti o memorizzati dati personali o di utilizzo di alcun tipo. Non utilizziamo cookie o altri sistemi di tracciamento.</p>
                 </div>
                 <div>
-                    <h4 class="font-bold text-lg mb-2">Gestione delle Immagini</h4>
-                    <p>Le immagini che carichi vengono inviate in modo sicuro ai server di Google per essere analizzate dal modello di intelligenza artificiale. Le immagini non vengono memorizzate da questa applicazione né associate a te in alcun modo dopo che l'analisi è stata completata. La loro gestione è soggetta alle policy sulla privacy di Google AI.</p>
+                    <h4 class="font-bold text-lg mb-2" data-translate="modal_images_title">Gestione delle Immagini</h4>
+                    <p data-translate="modal_images_p1">Le immagini che carichi vengono inviate in modo sicuro ai server di Google per essere analizzate dal modello di intelligenza artificiale. Le immagini non vengono memorizzate da questa applicazione né associate a te in alcun modo dopo che l'analisi è stata completata. La loro gestione è soggetta alle policy sulla privacy di Google AI.</p>
                 </div>
                 <div>
-                    <h4 class="font-bold text-lg mb-2">Contatti e Collaborazioni</h4>
-                    <p>Per qualsiasi domanda, feedback, proposta di collaborazione o per segnalare un problema, puoi contattare lo sviluppatore all'indirizzo email:</p>
+                    <h4 class="font-bold text-lg mb-2" data-translate="modal_contact_title">Contatti e Collaborazioni</h4>
+                    <p data-translate="modal_contact_p1">Per qualsiasi domanda, feedback, proposta di collaborazione o per segnalare un problema, puoi contattare lo sviluppatore all'indirizzo email:</p>
                     <p class="mt-2"><a href="mailto:luminaessenza1@gmail.com" class="text-green-600 font-semibold hover:underline">luminaessenza1@gmail.com</a></p>
                 </div>
             </div>
@@ -250,6 +272,275 @@
 
 
     <script>
+        // --- INIZIO SEZIONE TRADUZIONI ---
+        const translations = {
+            it: {
+                main_title: "Riconoscimento Piante, Alberi e Frutti",
+                subtitle: "Carica una foto e scegli quali informazioni scoprire sulla pianta, l'albero o il frutto.",
+                upload_prompt: "<span class='font-semibold text-green-600'>Clicca per caricare</span> o trascina un'immagine",
+                upload_hint: "PNG, JPG, GIF fino a 10MB",
+                options_title: "Scegli cosa analizzare:",
+                opt_poisonous: "È velenosa?",
+                opt_culinary: "Usi in cucina",
+                opt_medicinal: "Proprietà medicinali",
+                opt_care: "Cura e manutenzione",
+                analyze_button: "Analizza",
+                reset_button: "Carica un'altra immagine",
+                loader_text: "Analisi in corso...",
+                disclaimer_title: "Avviso Importante",
+                disclaimer_p1: "Le informazioni fornite da questa applicazione sono generate da un'intelligenza artificiale e sono da intendersi esclusivamente a scopo informativo ed educativo. L'identificazione di piante, alberi e frutti potrebbe non essere accurata o completa.",
+                disclaimer_p2: "<strong>Non fare affidamento su queste informazioni per decisioni mediche, culinarie o di altro tipo.</strong> Il consumo di una pianta o di un frutto errato può avere conseguenze gravi per la salute. Consulta sempre un esperto qualificato (come un botanico, un medico o un tossicologo) prima di consumare o utilizzare qualsiasi pianta per scopi medicinali o culinari.",
+                disclaimer_p3: "Lo sviluppatore, Nicola Nicolaci, non si assume alcuna responsabilità per eventuali errori, omissioni o per qualsiasi conseguenza derivante dall'uso delle informazioni fornite da questa applicazione. Utilizzando questo strumento, accetti di assumerti la piena responsabilità delle tue azioni.",
+                support_button: "Supporta il Progetto",
+                rights_reserved: "Tutti i diritti riservati.",
+                privacy_link: "Privacy e Contatti",
+                modal_title: "Privacy Policy e Contatti",
+                modal_privacy_title: "La Tua Privacy è Importante",
+                modal_privacy_p1: "Questa applicazione è stata creata con il massimo rispetto per la tua privacy. Non vengono raccolti, tracciati, venduti o memorizzati dati personali o di utilizzo di alcun tipo. Non utilizziamo cookie o altri sistemi di tracciamento.",
+                modal_images_title: "Gestione delle Immagini",
+                modal_images_p1: "Le immagini che carichi vengono inviate in modo sicuro ai server di Google per essere analizzate dal modello di intelligenza artificiale. Le immagini non vengono memorizzate da questa applicazione né associate a te in alcun modo dopo che l'analisi è stata completata. La loro gestione è soggetta alle policy sulla privacy di Google AI.",
+                modal_contact_title: "Contatti e Collaborazioni",
+                modal_contact_p1: "Per qualsiasi domanda, feedback, proposta di collaborazione o per segnalare un problema, puoi contattare lo sviluppatore all'indirizzo email:",
+                gemini_prompt_template: (lang) => `Identifica la pianta, l'albero o il frutto nell'immagine. Fornisci una risposta dettagliata e ben strutturata in ${lang}, includendo:`,
+                gemini_option_poisonous: "Tossicità: Analizza in dettaglio se è velenoso/a per umani o animali domestici, quali parti sono tossiche e quali sono i sintomi.",
+                gemini_option_culinary: "Usi in Cucina: Descrivi se e come viene usato in cucina. Specifica le parti commestibili, il sapore e possibili ricette.",
+                gemini_option_medicinal: "Proprietà Medicinali: Elenca le proprietà medicinali tradizionali o scientificamente provate, e come viene utilizzato/a.",
+                gemini_option_care: "Cura e Manutenzione: Fornisci istruzioni dettagliate su come curare questa pianta/albero (es. tipo di terreno, esposizione alla luce, fabbisogno d'acqua, temperatura ideale)."
+            },
+            en: {
+                main_title: "Plant, Tree & Fruit Recognition",
+                subtitle: "Upload a photo and choose what information to discover about the plant, tree, or fruit.",
+                upload_prompt: "<span class='font-semibold text-green-600'>Click to upload</span> or drag and drop an image",
+                upload_hint: "PNG, JPG, GIF up to 10MB",
+                options_title: "Choose what to analyze:",
+                opt_poisonous: "Is it poisonous?",
+                opt_culinary: "Culinary uses",
+                opt_medicinal: "Medicinal properties",
+                opt_care: "Care and maintenance",
+                analyze_button: "Analyze",
+                reset_button: "Upload another image",
+                loader_text: "Analyzing...",
+                disclaimer_title: "Important Notice",
+                disclaimer_p1: "The information provided by this application is generated by an artificial intelligence and is for informational and educational purposes only. The identification of plants, trees, and fruits may not be accurate or complete.",
+                disclaimer_p2: "<strong>Do not rely on this information for medical, culinary, or other decisions.</strong> Consuming the wrong plant or fruit can have serious health consequences. Always consult a qualified expert (such as a botanist, doctor, or toxicologist) before consuming or using any plant for medicinal or culinary purposes.",
+                disclaimer_p3: "The developer, Nicola Nicolaci, assumes no liability for any errors, omissions, or for any consequences arising from the use of the information provided by this application. By using this tool, you agree to assume full responsibility for your actions.",
+                support_button: "Support the Project",
+                rights_reserved: "All rights reserved.",
+                privacy_link: "Privacy & Contact",
+                modal_title: "Privacy Policy & Contact",
+                modal_privacy_title: "Your Privacy is Important",
+                modal_privacy_p1: "This application was created with the utmost respect for your privacy. No personal or usage data of any kind is collected, tracked, sold, or stored. We do not use cookies or other tracking systems.",
+                modal_images_title: "Image Handling",
+                modal_images_p1: "The images you upload are sent securely to Google's servers to be analyzed by the artificial intelligence model. The images are not stored by this application nor associated with you in any way after the analysis is complete. Their handling is subject to Google AI's privacy policies.",
+                modal_contact_title: "Contact & Collaborations",
+                modal_contact_p1: "For any questions, feedback, collaboration proposals, or to report a problem, you can contact the developer at the email address:",
+                gemini_prompt_template: (lang) => `Identify the plant, tree, or fruit in the image. Provide a detailed and well-structured response in ${lang}, including:`,
+                gemini_option_poisonous: "Toxicity: Analyze in detail if it is poisonous to humans or pets, which parts are toxic, and what the symptoms are.",
+                gemini_option_culinary: "Culinary Uses: Describe if and how it is used in cooking. Specify edible parts, flavor, and possible recipes.",
+                gemini_option_medicinal: "Medicinal Properties: List the traditional or scientifically proven medicinal properties, and how it is used.",
+                gemini_option_care: "Care and Maintenance: Provide detailed instructions on how to care for this plant/tree (e.g., soil type, light exposure, water needs, ideal temperature)."
+            },
+            fr: {
+                main_title: "Reconnaissance des Plantes, Arbres et Fruits",
+                subtitle: "Téléchargez une photo et choisissez les informations à découvrir sur la plante, l'arbre ou le fruit.",
+                upload_prompt: "<span class='font-semibold text-green-600'>Cliquez pour télécharger</span> ou glissez-déposez une image",
+                upload_hint: "PNG, JPG, GIF jusqu'à 10Mo",
+                options_title: "Choisissez ce qu'il faut analyser :",
+                opt_poisonous: "Est-ce toxique ?",
+                opt_culinary: "Usages culinaires",
+                opt_medicinal: "Propriétés médicinales",
+                opt_care: "Soin et entretien",
+                analyze_button: "Analyser",
+                reset_button: "Télécharger une autre image",
+                loader_text: "Analyse en cours...",
+                disclaimer_title: "Avis Important",
+                disclaimer_p1: "Les informations fournies par cette application sont générées par une intelligence artificielle et sont destinées uniquement à des fins d'information et d'éducation. L'identification des plantes, des arbres et des fruits peut ne pas être exacte ou complète.",
+                disclaimer_p2: "<strong>Ne vous fiez pas à ces informations pour des décisions médicales, culinaires ou autres.</strong> La consommation d'une mauvaise plante ou d'un mauvais fruit peut avoir de graves conséquences sur la santé. Consultez toujours un expert qualifié (comme un botaniste, un médecin ou un toxicologue) avant de consommer ou d'utiliser une plante à des fins médicinales ou culinaires.",
+                disclaimer_p3: "Le développeur, Nicola Nicolaci, n'assume aucune responsabilité pour les erreurs, omissions ou pour toute conséquence découlant de l'utilisation des informations fournies par cette application. En utilisant cet outil, vous acceptez d'assumer l'entière responsabilité de vos actions.",
+                support_button: "Soutenir le Projet",
+                rights_reserved: "Tous droits réservés.",
+                privacy_link: "Confidentialité et Contact",
+                modal_title: "Politique de Confidentialité et Contact",
+                modal_privacy_title: "Votre Vie Privée est Importante",
+                modal_privacy_p1: "Cette application a été créée dans le plus grand respect de votre vie privée. Aucune donnée personnelle ou d'utilisation n'est collectée, suivie, vendue ou stockée. Nous n'utilisons pas de cookies ou d'autres systèmes de suivi.",
+                modal_images_title: "Gestion des Images",
+                modal_images_p1: "Les images que vous téléchargez sont envoyées en toute sécurité aux serveurs de Google pour être analysées par le modèle d'intelligence artificielle. Les images ne sont pas stockées par cette application ni associées à vous de quelque manière que ce soit après la fin de l'analyse. Leur traitement est soumis aux politiques de confidentialité de Google AI.",
+                modal_contact_title: "Contact et Collaborations",
+                modal_contact_p1: "Pour toute question, commentaire, proposition de collaboration ou pour signaler un problème, vous pouvez contacter le développeur à l'adresse e-mail :",
+                gemini_prompt_template: (lang) => `Identifiez la plante, l'arbre ou le fruit dans l'image. Fournissez une réponse détaillée et bien structurée en ${lang}, incluant :`,
+                gemini_option_poisonous: "Toxicité : Analysez en détail si elle est toxique pour les humains ou les animaux domestiques, quelles parties sont toxiques et quels sont les symptômes.",
+                gemini_option_culinary: "Usages Culinaires : Décrivez si et comment elle est utilisée en cuisine. Spécifiez les parties comestibles, la saveur et les recettes possibles.",
+                gemini_option_medicinal: "Propriétés Médicinales : Listez les propriétés médicinales traditionnelles ou scientifiquement prouvées, et comment elle est utilisée.",
+                gemini_option_care: "Soin et Entretien : Fournissez des instructions détaillées sur la façon de prendre soin de cette plante/cet arbre (par exemple, type de sol, exposition à la lumière, besoins en eau, température idéale)."
+            },
+            de: {
+                main_title: "Pflanzen-, Baum- & Fruchterkennung",
+                subtitle: "Laden Sie ein Foto hoch und wählen Sie aus, welche Informationen Sie über die Pflanze, den Baum oder die Frucht erfahren möchten.",
+                upload_prompt: "<span class='font-semibold text-green-600'>Klicken zum Hochladen</span> oder Bild hierher ziehen",
+                upload_hint: "PNG, JPG, GIF bis zu 10MB",
+                options_title: "Wählen Sie, was analysiert werden soll:",
+                opt_poisonous: "Ist es giftig?",
+                opt_culinary: "Kulinarische Verwendung",
+                opt_medicinal: "Medizinische Eigenschaften",
+                opt_care: "Pflege und Wartung",
+                analyze_button: "Analysieren",
+                reset_button: "Anderes Bild hochladen",
+                loader_text: "Analyse läuft...",
+                disclaimer_title: "Wichtiger Hinweis",
+                disclaimer_p1: "Die von dieser Anwendung bereitgestellten Informationen werden von einer künstlichen Intelligenz generiert und dienen ausschließlich zu Informations- und Bildungszwecken. Die Identifizierung von Pflanzen, Bäumen und Früchten ist möglicherweise nicht korrekt oder vollständig.",
+                disclaimer_p2: "<strong>Verlassen Sie sich nicht auf diese Informationen für medizinische, kulinarische oder andere Entscheidungen.</strong> Der Verzehr der falschen Pflanze oder Frucht kann schwerwiegende gesundheitliche Folgen haben. Konsultieren Sie immer einen qualifizierten Experten (wie einen Botaniker, Arzt oder Toxikologen), bevor Sie eine Pflanze zu medizinischen oder kulinarischen Zwecken konsumieren oder verwenden.",
+                disclaimer_p3: "Der Entwickler, Nicola Nicolaci, übernimmt keine Haftung für Fehler, Auslassungen oder für jegliche Konsequenzen, die sich aus der Nutzung der von dieser Anwendung bereitgestellten Informationen ergeben. Durch die Nutzung dieses Tools erklären Sie sich damit einverstanden, die volle Verantwortung für Ihr Handeln zu übernehmen.",
+                support_button: "Projekt unterstützen",
+                rights_reserved: "Alle Rechte vorbehalten.",
+                privacy_link: "Datenschutz & Kontakt",
+                modal_title: "Datenschutzrichtlinie & Kontakt",
+                modal_privacy_title: "Ihr Datenschutz ist wichtig",
+                modal_privacy_p1: "Diese Anwendung wurde mit größtem Respekt für Ihre Privatsphäre erstellt. Es werden keinerlei persönliche Daten oder Nutzungsdaten gesammelt, verfolgt, verkauft oder gespeichert. Wir verwenden keine Cookies oder andere Tracking-Systeme.",
+                modal_images_title: "Umgang mit Bildern",
+                modal_images_p1: "Die von Ihnen hochgeladenen Bilder werden sicher an die Server von Google gesendet, um vom künstlichen Intelligenzmodell analysiert zu werden. Die Bilder werden von dieser Anwendung nach Abschluss der Analyse weder gespeichert noch in irgendeiner Weise mit Ihnen in Verbindung gebracht. Ihre Handhabung unterliegt den Datenschutzrichtlinien von Google AI.",
+                modal_contact_title: "Kontakt & Kooperationen",
+                modal_contact_p1: "Bei Fragen, Feedback, Kooperationsvorschlägen oder zur Meldung eines Problems können Sie den Entwickler unter der E-Mail-Adresse kontaktieren:",
+                gemini_prompt_template: (lang) => `Identifizieren Sie die Pflanze, den Baum oder die Frucht im Bild. Geben Sie eine detaillierte und gut strukturierte Antwort auf ${lang}, einschließlich:`,
+                gemini_option_poisonous: "Toxizität: Analysieren Sie im Detail, ob es für Menschen oder Haustiere giftig ist, welche Teile giftig sind und was die Symptome sind.",
+                gemini_option_culinary: "Kulinarische Verwendung: Beschreiben Sie, ob und wie es beim Kochen verwendet wird. Geben Sie essbare Teile, Geschmack und mögliche Rezepte an.",
+                gemini_option_medicinal: "Medizinische Eigenschaften: Listen Sie die traditionellen oder wissenschaftlich nachgewiesenen medizinischen Eigenschaften und deren Verwendung auf.",
+                gemini_option_care: "Pflege und Wartung: Geben Sie detaillierte Anweisungen zur Pflege dieser Pflanze/dieses Baumes (z. B. Bodentyp, Lichteinwirkung, Wasserbedarf, ideale Temperatur)."
+            },
+            zh: {
+                main_title: "植物、树木和水果识别",
+                subtitle: "上传一张照片，选择要了解的植物、树木或水果的信息。",
+                upload_prompt: "<span class='font-semibold text-green-600'>点击上传</span> 或拖放图片",
+                upload_hint: "PNG, JPG, GIF, 最大10MB",
+                options_title: "选择要分析的内容：",
+                opt_poisonous: "有毒吗？",
+                opt_culinary: "烹饪用途",
+                opt_medicinal: "药用特性",
+                opt_care: "护理与保养",
+                analyze_button: "分析",
+                reset_button: "上传另一张图片",
+                loader_text: "分析中...",
+                disclaimer_title: "重要声明",
+                disclaimer_p1: "本应用程序提供的信息由人工智能生成，仅供参考和教育目的。植物、树木和水果的识别可能不准确或不完整。",
+                disclaimer_p2: "<strong>请勿依赖此信息做出医疗、烹饪或其他决定。</strong> 食用错误的植物或水果可能会对健康造成严重后果。在食用或使用任何植物用于药用或烹饪目的之前，请务必咨询合格的专家（如植物学家、医生或毒理学家）。",
+                disclaimer_p3: "开发者 Nicola Nicolaci 对因使用本应用程序提供的信息而导致的任何错误、遗漏或任何后果不承担任何责任。使用此工具即表示您同意对自己的行为承担全部责任。",
+                support_button: "支持项目",
+                rights_reserved: "版权所有。",
+                privacy_link: "隐私与联系方式",
+                modal_title: "隐私政策与联系方式",
+                modal_privacy_title: "您的隐私很重要",
+                modal_privacy_p1: "本应用程序的创建充分尊重您的隐私。我们不收集、跟踪、出售或存储任何类型的个人或使用数据。我们不使用cookie或其他跟踪系统。",
+                modal_images_title: "图像处理",
+                modal_images_p1: "您上传的图像被安全地发送到谷歌的服务器，由人工智能模型进行分析。分析完成后，本应用程序不会存储这些图像，也不会以任何方式将它们与您关联。它们的处理受谷歌AI隐私政策的约束。",
+                modal_contact_title: "联系与合作",
+                modal_contact_p1: "如有任何问题、反馈、合作建议或报告问题，您可以通过电子邮件联系开发者：",
+                gemini_prompt_template: (lang) => `识别图像中的植物、树木或水果。请用${lang}提供详细且结构良好的回答，包括：`,
+                gemini_option_poisonous: "毒性：详细分析它是否对人类或宠物有毒，哪些部分有毒，以及有什么症状。",
+                gemini_option_culinary: "烹饪用途：描述它是否以及如何在烹饪中使用。指明可食用部分、味道和可能的食谱。",
+                gemini_option_medicinal: "药用特性：列出传统或经科学证明的药用特性，以及如何使用。",
+                gemini_option_care: "护理与保养：提供关于如何护理这种植物/树木的详细说明（例如，土壤类型、光照、需水量、理想温度）。"
+            },
+            ja: {
+                main_title: "植物、木、果物の認識",
+                subtitle: "写真をアップロードして、植物、木、または果物に関する情報を選択してください。",
+                upload_prompt: "<span class='font-semibold text-green-600'>クリックしてアップロード</span>または画像をドラッグ＆ドロップ",
+                upload_hint: "PNG, JPG, GIF 最大10MB",
+                options_title: "分析する内容を選択してください：",
+                opt_poisonous: "毒性はありますか？",
+                opt_culinary: "料理での使用",
+                opt_medicinal: "薬効",
+                opt_care: "手入れとメンテナンス",
+                analyze_button: "分析",
+                reset_button: "別の画像をアップロード",
+                loader_text: "分析中...",
+                disclaimer_title: "重要なお知らせ",
+                disclaimer_p1: "このアプリケーションによって提供される情報は、人工知能によって生成されたものであり、情報提供および教育目的のみを目的としています。植物、木、果物の識別は、正確または完全でない場合があります。",
+                disclaimer_p2: "<strong>医療、料理、その他の決定について、この情報に依存しないでください。</strong> 間違った植物や果物を摂取すると、健康に深刻な結果を招く可能性があります。薬用または料理目的で植物を使用する前に、必ず資格のある専門家（植物学者、医師、毒物学者など）に相談してください。",
+                disclaimer_p3: "開発者 Nicola Nicolaci は、このアプリケーションによって提供された情報の使用に起因するいかなる誤り、省略、または結果についても一切の責任を負いません。このツールを使用することにより、あなたは自身の行動に全責任を負うことに同意するものとします。",
+                support_button: "プロジェクトを支援",
+                rights_reserved: "全著作権所有。",
+                privacy_link: "プライバシーと連絡先",
+                modal_title: "プライバシーポリシーと連絡先",
+                modal_privacy_title: "あなたのプライバシーは重要です",
+                modal_privacy_p1: "このアプリケーションは、あなたのプライバシーを最大限に尊重して作成されました。いかなる種類の個人データや使用状況データも収集、追跡、販売、保存されることはありません。クッキーやその他の追跡システムは使用していません。",
+                modal_images_title: "画像の取り扱い",
+                modal_images_p1: "アップロードした画像は、人工知能モデルによる分析のためにGoogleのサーバーに安全に送信されます。分析完了後、画像はこのアプリケーションによって保存されたり、あなたと関連付けられたりすることはありません。その取り扱いは、Google AIのプライバシーポリシーに従います。",
+                modal_contact_title: "連絡先と協力",
+                modal_contact_p1: "質問、フィードバック、協力の提案、または問題の報告については、開発者に電子メールで連絡できます：",
+                gemini_prompt_template: (lang) => `画像内の植物、樹木、または果物を特定します。 ${lang}で詳細かつよく構成された応答を提供してください。以下を含みます：`,
+                gemini_option_poisonous: "毒性：人間やペットに有毒かどうか、どの部分が有毒か、症状は何かを詳細に分析します。",
+                gemini_option_culinary: "料理での用途：料理でどのように使用されるか、またその方法を説明します。可食部分、風味、考えられるレシピを明記します。",
+                gemini_option_medicinal: "薬効：伝統的または科学的に証明された薬効と、その使用方法をリストアップします。",
+                gemini_option_care: "手入れとメンテナンス：この植物/樹木の手入れ方法に関する詳細な指示を提供します（例：土壌の種類、光への暴露、水の必要量、理想的な温度）。"
+            },
+            ar: {
+                main_title: "التعرف على النباتات والأشجار والفواكه",
+                subtitle: "قم بتحميل صورة واختر المعلومات التي تريد اكتشافها عن النبات أو الشجرة أو الفاكهة.",
+                upload_prompt: "<span class='font-semibold text-green-600'>انقر للتحميل</span> أو اسحب وأفلت صورة",
+                upload_hint: "PNG, JPG, GIF بحجم يصل إلى 10 ميغابايت",
+                options_title: "اختر ما تريد تحليله:",
+                opt_poisonous: "هل هي سامة؟",
+                opt_culinary: "استخدامات الطهي",
+                opt_medicinal: "خصائص طبية",
+                opt_care: "العناية والصيانة",
+                analyze_button: "تحليل",
+                reset_button: "تحميل صورة أخرى",
+                loader_text: "جارٍ التحليل...",
+                disclaimer_title: "إشعار هام",
+                disclaimer_p1: "المعلومات المقدمة من هذا التطبيق تم إنشاؤها بواسطة ذكاء اصطناعي وهي مخصصة للأغراض المعلوماتية والتعليمية فقط. قد لا يكون التعرف على النباتات والأشجار والفواكه دقيقًا أو كاملاً.",
+                disclaimer_p2: "<strong>لا تعتمد على هذه المعلومات لاتخاذ قرارات طبية أو طهوية أو غيرها.</strong> يمكن أن يكون لاستهلاك نبات أو فاكهة خاطئة عواقب صحية خطيرة. استشر دائمًا خبيرًا مؤهلاً (مثل عالم نبات أو طبيب أو عالم سموم) قبل استهلاك أو استخدام أي نبات لأغراض طبية أو طهوية.",
+                disclaimer_p3: "المطور، نيكولا نيكولاتشي، لا يتحمل أي مسؤولية عن أي أخطاء أو سهو أو عن أي عواقب تنشأ عن استخدام المعلومات المقدمة من هذا التطبيق. باستخدام هذه الأداة، فإنك توافق على تحمل المسؤولية الكاملة عن أفعالك.",
+                support_button: "ادعم المشروع",
+                rights_reserved: "كل الحقوق محفوظة.",
+                privacy_link: "الخصوصية والاتصال",
+                modal_title: "سياسة الخصوصية والاتصال",
+                modal_privacy_title: "خصوصيتك مهمة",
+                modal_privacy_p1: "تم إنشاء هذا التطبيق مع أقصى درجات الاحترام لخصوصيتك. لا يتم جمع أو تتبع أو بيع أو تخزين أي بيانات شخصية أو بيانات استخدام من أي نوع. نحن لا نستخدم ملفات تعريف الارتباط أو أنظمة التتبع الأخرى.",
+                modal_images_title: "التعامل مع الصور",
+                modal_images_p1: "يتم إرسال الصور التي تقوم بتحميلها بشكل آمن إلى خوادم جوجل ليتم تحليلها بواسطة نموذج الذكاء الاصطناعي. لا يتم تخزين الصور بواسطة هذا التطبيق ولا يتم ربطها بك بأي شكل من الأشكال بعد اكتمال التحليل. يخضع التعامل معها لسياسات خصوصية جوجل للذكاء الاصطناعي.",
+                modal_contact_title: "الاتصال والتعاون",
+                modal_contact_p1: "لأية أسئلة أو ملاحظات أو مقترحات تعاون أو للإبلاغ عن مشكلة، يمكنك الاتصال بالمطور على عنوان البريد الإلكتروني:",
+                gemini_prompt_template: (lang) => `حدد النبات أو الشجرة أو الفاكهة في الصورة. قدم إجابة مفصلة ومنظمة جيدًا باللغة ${lang}، بما في ذلك:`,
+                gemini_option_poisonous: "السمية: حلل بالتفصيل ما إذا كانت سامة للبشر أو الحيوانات الأليفة، وأي أجزاء سامة، وما هي الأعراض.",
+                gemini_option_culinary: "استخدامات الطهي: صف ما إذا كان يستخدم في الطهي وكيف. حدد الأجزاء الصالحة للأكل والنكهة والوصفات الممكنة.",
+                gemini_option_medicinal: "الخصائص الطبية: اذكر الخصائص الطبية التقليدية أو المثبتة علميًا، وكيفية استخدامها.",
+                gemini_option_care: "العناية والصيانة: قدم تعليمات مفصلة حول كيفية العناية بهذا النبات / الشجرة (مثل نوع التربة، والتعرض للضوء، واحتياجات المياه، ودرجة الحرارة المثالية)."
+            },
+            ru: {
+                main_title: "Распознавание растений, деревьев и фруктов",
+                subtitle: "Загрузите фотографию и выберите, какую информацию о растении, дереве или фрукте вы хотите узнать.",
+                upload_prompt: "<span class='font-semibold text-green-600'>Нажмите для загрузки</span> или перетащите изображение",
+                upload_hint: "PNG, JPG, GIF до 10 МБ",
+                options_title: "Выберите, что анализировать:",
+                opt_poisonous: "Ядовито ли оно?",
+                opt_culinary: "Кулинарное использование",
+                opt_medicinal: "Лекарственные свойства",
+                opt_care: "Уход и обслуживание",
+                analyze_button: "Анализировать",
+                reset_button: "Загрузить другое изображение",
+                loader_text: "Анализ...",
+                disclaimer_title: "Важное замечание",
+                disclaimer_p1: "Информация, предоставляемая этим приложением, генерируется искусственным интеллектом и предназначена исключительно для информационных и образовательных целей. Идентификация растений, деревьев и фруктов может быть неточной или неполной.",
+                disclaimer_p2: "<strong>Не полагайтесь на эту информацию при принятии медицинских, кулинарных или иных решений.</strong> Употребление неправильного растения или фрукта может иметь серьезные последствия для здоровья. Всегда консультируйтесь с квалифицированным специалистом (например, ботаником, врачом или токсикологом) перед употреблением или использованием любого растения в лечебных или кулинарных целях.",
+                disclaimer_p3: "Разработчик, Никола Николачи, не несет ответственности за любые ошибки, упущения или любые последствия, возникающие в результате использования информации, предоставленной этим приложением. Используя этот инструмент, вы соглашаетесь принять на себя полную ответственность за свои действия.",
+                support_button: "Поддержать проект",
+                rights_reserved: "Все права защищены.",
+                privacy_link: "Конфиденциальность и контакты",
+                modal_title: "Политика конфиденциальности и контакты",
+                modal_privacy_title: "Ваша конфиденциальность важна",
+                modal_privacy_p1: "Это приложение было создано с максимальным уважением к вашей конфиденциальности. Никакие личные данные или данные об использовании не собираются, не отслеживаются, не продаются и не хранятся. Мы не используем файлы cookie или другие системы отслеживания.",
+                modal_images_title: "Обработка изображений",
+                modal_images_p1: "Загруженные вами изображения безопасно отправляются на серверы Google для анализа моделью искусственного интеллекта. Изображения не сохраняются этим приложением и никак не связываются с вами после завершения анализа. Их обработка регулируется политикой конфиденциальности Google AI.",
+                modal_contact_title: "Контакты и сотрудничество",
+                modal_contact_p1: "По любым вопросам, отзывам, предложениям о сотрудничестве или для сообщения о проблеме вы можете связаться с разработчиком по электронной почте:",
+                gemini_prompt_template: (lang) => `Определите растение, дерево или фрукт на изображении. Предоставьте подробный и хорошо структурированный ответ на ${lang} языке, включая:`,
+                gemini_option_poisonous: "Токсичность: подробно проанализируйте, ядовито ли оно для людей или домашних животных, какие части ядовиты и каковы симптомы.",
+                gemini_option_culinary: "Кулинарное использование: опишите, используется ли оно в кулинарии и как. Укажите съедобные части, вкус и возможные рецепты.",
+                gemini_option_medicinal: "Лекарственные свойства: перечислите традиционные или научно доказанные лекарственные свойства и способы их использования.",
+                gemini_option_care: "Уход и обслуживание: предоставьте подробные инструкции по уходу за этим растением/деревом (например, тип почвы, освещение, потребность в воде, идеальная температура)."
+            }
+        };
+        // --- FINE SEZIONE TRADUZIONI ---
+
         // Elementi del DOM
         const imageInput = document.getElementById('image-input');
         const uploadArea = document.getElementById('upload-area');
@@ -262,15 +553,37 @@
         const resultCard = document.getElementById('result-card');
         const errorCard = document.getElementById('error-card');
         const errorMessage = document.getElementById('error-message');
+        const languageSelector = document.getElementById('language-selector');
 
         // Elementi Modale
         const privacyLink = document.getElementById('privacy-link');
         const privacyModal = document.getElementById('privacy-modal');
         const closeModalBtn = document.getElementById('close-modal-btn');
-        const modalContent = document.getElementById('modal-content');
-
-
+        
         let imageBase64Data = null;
+        let currentLanguage = 'it';
+
+        // --- INIZIO LOGICA MULTILINGUA ---
+        function setLanguage(lang) {
+            if (!translations[lang]) return;
+            currentLanguage = lang;
+            
+            document.querySelectorAll('[data-translate]').forEach(element => {
+                const key = element.getAttribute('data-translate');
+                if (translations[lang][key]) {
+                    element.innerHTML = translations[lang][key];
+                }
+            });
+
+            document.documentElement.lang = lang;
+            document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+            document.title = translations[lang].main_title;
+        }
+
+        languageSelector.addEventListener('change', (e) => {
+            setLanguage(e.target.value);
+        });
+        // --- FINE LOGICA MULTILINGUA ---
 
         // Gestione eventi upload
         uploadArea.addEventListener('click', () => imageInput.click());
@@ -285,7 +598,6 @@
             if (e.target.files.length > 0) handleFile(e.target.files[0]);
         });
 
-        // Funzione per gestire il file
         function handleFile(file) {
             if (file && file.type.startsWith('image/')) {
                 const reader = new FileReader();
@@ -304,7 +616,6 @@
             }
         }
 
-        // Gestione click "Analizza"
         recognizeBtn.addEventListener('click', async () => {
             if (!imageBase64Data) {
                 showError("Nessuna immagine da analizzare.");
@@ -317,40 +628,29 @@
             errorCard.classList.add('hidden');
             
             try {
-                // Costruisci il prompt dinamicamente
                 const options = {
                     poisonous: document.getElementById('opt-poisonous').checked,
                     culinary: document.getElementById('opt-culinary').checked,
                     medicinal: document.getElementById('opt-medicinal').checked,
                     care: document.getElementById('opt-care').checked,
                 };
+                
+                const lang_map = { it: 'italiano', en: 'inglese', fr: 'francese', de: 'tedesco', zh: 'cinese', ja: 'giapponese', ar: 'arabo', ru: 'russo' };
+                const currentLangName = lang_map[currentLanguage];
+                const T = translations[currentLanguage];
 
-                let prompt = `Identifica la pianta, l'albero o il frutto nell'immagine. Fornisci una risposta dettagliata e ben strutturata in italiano, includendo:
+                let prompt = `${T.gemini_prompt_template(currentLangName)}
                 1.  **Nome Comune:** [Nome comune]
                 2.  **Nome Scientifico:** [Nome scientifico in corsivo]
                 3.  **Descrizione Generale:** [Breve descrizione.]\n`;
 
-                if (options.poisonous) {
-                    prompt += `4.  **Tossicità:** Analizza in dettaglio se è velenoso/a per umani o animali domestici, quali parti sono tossiche e quali sono i sintomi.\n`;
-                }
-                if (options.culinary) {
-                    prompt += `5.  **Usi in Cucina:** Descrivi se e come viene usato in cucina. Specifica le parti commestibili, il sapore e possibili ricette.\n`;
-                }
-                if (options.medicinal) {
-                    prompt += `6.  **Proprietà Medicinali:** Elenca le proprietà medicinali tradizionali o scientificamente provate, e come viene utilizzato/a.\n`;
-                }
-                if (options.care) {
-                    prompt += `7.  **Cura e Manutenzione:** Fornisci istruzioni dettagliate su come curare questa pianta/albero (es. tipo di terreno, esposizione alla luce, fabbisogno d'acqua, temperatura ideale).\n`;
-                }
+                if (options.poisonous) prompt += `4.  **${T.gemini_option_poisonous}**\n`;
+                if (options.culinary) prompt += `5.  **${T.gemini_option_culinary}**\n`;
+                if (options.medicinal) prompt += `6.  **${T.gemini_option_medicinal}**\n`;
+                if (options.care) prompt += `7.  **${T.gemini_option_care}**\n`;
                 
-                // L'URL della nostra funzione Netlify
                 const functionUrl = '/.netlify/functions/analyze-image';
-
-                // I dati da inviare alla nostra funzione
-                const requestBody = {
-                    imageBase64Data: imageBase64Data,
-                    prompt: prompt
-                };
+                const requestBody = { imageBase64Data, prompt };
 
                 const response = await fetch(functionUrl, {
                     method: 'POST',
@@ -380,17 +680,15 @@
             }
         });
         
-        // Funzione per mostrare il risultato
         function showResult(text) {
-            // Converte il Markdown di base in HTML
             let htmlContent = text
                 .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
                 .replace(/\*(.*?)\*/g, '<em>$1</em>')
                 .replace(/^\d+\.\s+<strong/gm, '<h4 class="text-lg font-semibold text-green-800 mt-4 mb-2"><strong')
                 .replace(/\n/g, '<br>');
 
-            const nameMatch = text.match(/Nome Comune:[\s*]*<strong>(.*?)<\/strong>/);
-            const scientificNameMatch = text.match(/Nome Scientifico:[\s*]*<em>(.*?)<\/em>/);
+            const nameMatch = text.match(/Nome Comune:[\s*]*<strong>(.*?)<\/strong>/i);
+            const scientificNameMatch = text.match(/Nome Scientifico:[\s*]*<em>(.*?)<\/em>/i);
 
             let title = "Risultato dell'Analisi";
             if (nameMatch && nameMatch[1]) {
@@ -405,18 +703,16 @@
             resultCard.innerHTML = `
                 <h2>${title}</h2>
                 ${scientificName}
-                <div class="mt-4">${htmlContent.replace(/.*?Descrizione Generale:/, '').replace(/<strong>Descrizione Generale:<\/strong>/, '')}</div>
+                <div class="mt-4">${htmlContent.replace(/.*?Descrizione Generale:/i, '').replace(/<strong>Descrizione Generale:<\/strong>/i, '')}</div>
             `;
             resultCard.classList.remove('hidden');
         }
 
-        // Funzione per mostrare un errore
         function showError(message) {
             errorMessage.textContent = message;
             errorCard.classList.remove('hidden');
         }
         
-        // Gestione pulsante Reset
         resetBtn.addEventListener('click', () => {
              uploadContainer.classList.remove('hidden');
              imagePreviewContainer.classList.add('hidden');
@@ -425,7 +721,6 @@
              loader.classList.add('hidden');
              imageInput.value = '';
              imageBase64Data = null;
-             // Deseleziona tutte le checkbox
              document.querySelectorAll('#analysis-options input[type="checkbox"]').forEach(cb => cb.checked = false);
         });
 
@@ -446,6 +741,10 @@
             }
         });
 
+        // Imposta la lingua iniziale al caricamento della pagina
+        window.addEventListener('DOMContentLoaded', () => {
+            setLanguage('it');
+        });
     </script>
 </body>
 </html>
