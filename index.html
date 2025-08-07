@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-adsense-account" content="ca-pub-8268426852108056">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8268426852108056"
+     crossorigin="anonymous"></script>
+    <title>Riconoscimento Piante, Alberi e Frutti</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0fdf4; /* Verde molto chiaro */
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 768px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 2rem;
+            flex-grow: 1;
+        }
+        .card {
+            background-color: white;
+            border-radius: 1rem;
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            padding: 2rem;
+            transition: all 0.3s ease-in-out;
+        }
+        .upload-area {
+            border: 2px dashed #a3e635; /* Verde lime */
+            border-radius: 0.75rem;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        .upload-area:hover {
+            background-color: #ecfccb; /* Verde lime più chiaro */
+        }
+        #result-card h2 {
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: #166534; /* Verde scuro */
+            margin-bottom: 0.5rem;
+        }
+         #result-card h3 {
+            font-size: 1.1rem;
+            font-style: italic;
+            font-weight: 500;
+            color: #4d7c0f; /* Verde */
+            margin-bottom: 1rem;
+        }
+        #result-card p, #result-card li {
+            color: #374151; /* Grigio scuro */
+            line-height: 1.6;
+        }
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #4ade80; /* Verde brillante */
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 2rem auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        .option-label {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem;
+            background-color: #f7fee7;
+            border-radius: 0.5rem;
+            border: 1px solid #d9f99d;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .option-label:hover {
+            border-color: #a3e635;
+        }
+        .option-label input {
+            accent-color: #65a30d;
+        }
+        .disclaimer-card {
+            background-color: #fffbeb; /* Giallo molto chiaro */
+            border: 1px solid #fef3c7; /* Giallo chiaro */
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            color: #92400e; /* Marrone/Ambra scuro */
+        }
+        .disclaimer-card h4 {
+            font-weight: 700;
+            color: #92400e;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+        }
+        .disclaimer-card p {
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        #privacy-modal {
+            transition: opacity 0.3s ease;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <div class="container">
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-green-800">🌿 Riconoscimento Piante, Alberi e Frutti</h1>
+            <p class="text-lg text-green-700 mt-2">Carica una foto e scegli quali informazioni scoprire sulla pianta, l'albero o il frutto.</p>
+        </div>
+
+        <div class="card">
+            <!-- Area di Upload -->
+            <div id="upload-container">
+                <input type="file" id="image-input" class="hidden" accept="image/*">
+                <div id="upload-area" class="upload-area">
+                    <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
+                        <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                    <p class="mt-2 text-sm text-gray-600">
+                        <span class="font-semibold text-green-600">Clicca per caricare</span> o trascina un'immagine
+                    </p>
+                    <p class="text-xs text-gray-500">PNG, JPG, GIF fino a 10MB</p>
+                </div>
+            </div>
+
+            <!-- Anteprima e Opzioni -->
+            <div id="image-preview-container" class="hidden text-center mt-6">
+                <img id="image-preview" src="#" alt="Anteprima immagine" class="max-h-64 w-auto inline-block rounded-lg shadow-md">
+                
+                <!-- Opzioni di Analisi -->
+                <div id="analysis-options" class="text-left mt-6">
+                    <h3 class="font-semibold text-lg text-gray-700 mb-3">Scegli cosa analizzare:</h3>
+                    <div class="options-grid">
+                        <label class="option-label">
+                            <input type="checkbox" id="opt-poisonous" class="h-4 w-4 mr-3">
+                            <span>È velenosa?</span>
+                        </label>
+                        <label class="option-label">
+                            <input type="checkbox" id="opt-culinary" class="h-4 w-4 mr-3">
+                            <span>Usi in cucina</span>
+                        </label>
+                        <label class="option-label">
+                            <input type="checkbox" id="opt-medicinal" class="h-4 w-4 mr-3">
+                            <span>Proprietà medicinali</span>
+                        </label>
+                        <label class="option-label">
+                            <input type="checkbox" id="opt-care" class="h-4 w-4 mr-3">
+                            <span>Cura e manutenzione</span>
+                        </label>
+                    </div>
+                </div>
+
+                <button id="recognize-btn" class="mt-6 w-full bg-green-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-green-700 transition duration-300 disabled:bg-gray-400">
+                    Analizza
+                </button>
+                 <button id="reset-btn" class="mt-2 w-full bg-gray-200 text-gray-700 font-bold py-2 px-4 rounded-lg hover:bg-gray-300 transition duration-300">
+                    Carica un'altra immagine
+                </button>
+            </div>
+        </div>
+
+        <!-- Risultato -->
+        <div id="loader" class="hidden">
+            <div class="loader"></div>
+            <p class="text-center text-green-700">Analisi in corso...</p>
+        </div>
+        <div id="result-card" class="card mt-8 hidden">
+            <!-- Il contenuto del risultato verrà inserito qui -->
+        </div>
+        <div id="error-card" class="card mt-8 hidden bg-red-100 border border-red-400 text-red-700">
+             <p id="error-message"></p>
+        </div>
+
+        <!-- Disclaimer -->
+        <div class="disclaimer-card">
+            <h4>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+                Avviso Importante
+            </h4>
+            <p>
+                Le informazioni fornite da questa applicazione sono generate da un'intelligenza artificiale e sono da intendersi esclusivamente a scopo informativo ed educativo. L'identificazione di piante, alberi e frutti potrebbe non essere accurata o completa.
+            </p>
+            <p class="mt-2">
+                <strong>Non fare affidamento su queste informazioni per decisioni mediche, culinarie o di altro tipo.</strong> Il consumo di una pianta o di un frutto errato può avere conseguenze gravi per la salute. Consulta sempre un esperto qualificato (come un botanico, un medico o un tossicologo) prima di consumare o utilizzare qualsiasi pianta per scopi medicinali o culinari.
+            </p>
+             <p class="mt-2">
+                Lo sviluppatore, Nicola Nicolaci, non si assume alcuna responsabilità per eventuali errori, omissioni o per qualsiasi conseguenza derivante dall'uso delle informazioni fornite da questa applicazione. Utilizzando questo strumento, accetti di assumerti la piena responsabilità delle tue azioni.
+            </p>
+        </div>
+    </div>
+    
+    <!-- Sezione Supporto -->
+    <div class="text-center mt-8 mb-4">
+        <a href="https://buy.stripe.com/aFa3cx1Oh10U0cMgNYdjO08" target="_blank" rel="noopener noreferrer" class="inline-block bg-white text-emerald-600 font-semibold py-3 px-6 rounded-full shadow-lg hover:bg-emerald-50 transform hover:-translate-y-1 transition-all duration-300">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mr-2 -mt-1" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd" />
+            </svg>
+            Supporta il Progetto
+        </a>
+    </div>
+
+    <footer class="text-center py-4 text-sm text-gray-500">
+        <p>© 2024 Nicola Nicolaci. Tutti i diritti riservati. | <a href="#" id="privacy-link" class="hover:underline text-green-700 font-semibold">Privacy e Contatti</a></p>
+    </footer>
+
+    <!-- Modale Privacy -->
+    <div id="privacy-modal" class="fixed inset-0 bg-black bg-opacity-60 hidden flex items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-lg shadow-xl p-8 max-w-2xl w-full transform transition-all" id="modal-content">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-2xl font-bold text-green-800">Privacy Policy e Contatti</h3>
+                <button id="close-modal-btn" class="text-gray-500 hover:text-gray-800">&times;</button>
+            </div>
+            <div class="text-left text-gray-700 space-y-4">
+                <div>
+                    <h4 class="font-bold text-lg mb-2">La Tua Privacy è Importante</h4>
+                    <p>Questa applicazione è stata creata con il massimo rispetto per la tua privacy. Non vengono raccolti, tracciati, venduti o memorizzati dati personali o di utilizzo di alcun tipo. Non utilizziamo cookie o altri sistemi di tracciamento.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg mb-2">Gestione delle Immagini</h4>
+                    <p>Le immagini che carichi vengono inviate in modo sicuro ai server di Google per essere analizzate dal modello di intelligenza artificiale. Le immagini non vengono memorizzate da questa applicazione né associate a te in alcun modo dopo che l'analisi è stata completata. La loro gestione è soggetta alle policy sulla privacy di Google AI.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg mb-2">Contatti e Collaborazioni</h4>
+                    <p>Per qualsiasi domanda, feedback, proposta di collaborazione o per segnalare un problema, puoi contattare lo sviluppatore all'indirizzo email:</p>
+                    <p class="mt-2"><a href="mailto:luminaessenza1@gmail.com" class="text-green-600 font-semibold hover:underline">luminaessenza1@gmail.com</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        // Elementi del DOM
+        const imageInput = document.getElementById('image-input');
+        const uploadArea = document.getElementById('upload-area');
+        const uploadContainer = document.getElementById('upload-container');
+        const imagePreviewContainer = document.getElementById('image-preview-container');
+        const imagePreview = document.getElementById('image-preview');
+        const recognizeBtn = document.getElementById('recognize-btn');
+        const resetBtn = document.getElementById('reset-btn');
+        const loader = document.getElementById('loader');
+        const resultCard = document.getElementById('result-card');
+        const errorCard = document.getElementById('error-card');
+        const errorMessage = document.getElementById('error-message');
+
+        // Elementi Modale
+        const privacyLink = document.getElementById('privacy-link');
+        const privacyModal = document.getElementById('privacy-modal');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+        const modalContent = document.getElementById('modal-content');
+
+
+        let imageBase64Data = null;
+
+        // Gestione eventi upload
+        uploadArea.addEventListener('click', () => imageInput.click());
+        uploadArea.addEventListener('dragover', (e) => { e.preventDefault(); uploadArea.classList.add('bg-green-50'); });
+        uploadArea.addEventListener('dragleave', () => uploadArea.classList.remove('bg-green-50'));
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('bg-green-50');
+            if (e.dataTransfer.files.length > 0) handleFile(e.dataTransfer.files[0]);
+        });
+        imageInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) handleFile(e.target.files[0]);
+        });
+
+        // Funzione per gestire il file
+        function handleFile(file) {
+            if (file && file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    imagePreview.src = e.target.result;
+                    uploadContainer.classList.add('hidden');
+                    imagePreviewContainer.classList.remove('hidden');
+                    recognizeBtn.disabled = false;
+                    resultCard.classList.add('hidden');
+                    errorCard.classList.add('hidden');
+                    imageBase64Data = e.target.result.split(',')[1];
+                };
+                reader.readAsDataURL(file);
+            } else {
+                showError("Per favore, carica un file immagine valido.");
+            }
+        }
+
+        // Gestione click "Analizza"
+        recognizeBtn.addEventListener('click', async () => {
+            if (!imageBase64Data) {
+                showError("Nessuna immagine da analizzare.");
+                return;
+            }
+
+            loader.classList.remove('hidden');
+            recognizeBtn.disabled = true;
+            resultCard.classList.add('hidden');
+            errorCard.classList.add('hidden');
+            
+            try {
+                // Costruisci il prompt dinamicamente
+                const options = {
+                    poisonous: document.getElementById('opt-poisonous').checked,
+                    culinary: document.getElementById('opt-culinary').checked,
+                    medicinal: document.getElementById('opt-medicinal').checked,
+                    care: document.getElementById('opt-care').checked,
+                };
+
+                let prompt = `Identifica la pianta, l'albero o il frutto nell'immagine. Fornisci una risposta dettagliata e ben strutturata in italiano, includendo:
+                1.  **Nome Comune:** [Nome comune]
+                2.  **Nome Scientifico:** [Nome scientifico in corsivo]
+                3.  **Descrizione Generale:** [Breve descrizione.]\n`;
+
+                if (options.poisonous) {
+                    prompt += `4.  **Tossicità:** Analizza in dettaglio se è velenoso/a per umani o animali domestici, quali parti sono tossiche e quali sono i sintomi.\n`;
+                }
+                if (options.culinary) {
+                    prompt += `5.  **Usi in Cucina:** Descrivi se e come viene usato in cucina. Specifica le parti commestibili, il sapore e possibili ricette.\n`;
+                }
+                if (options.medicinal) {
+                    prompt += `6.  **Proprietà Medicinali:** Elenca le proprietà medicinali tradizionali o scientificamente provate, e come viene utilizzato/a.\n`;
+                }
+                if (options.care) {
+                    prompt += `7.  **Cura e Manutenzione:** Fornisci istruzioni dettagliate su come curare questa pianta/albero (es. tipo di terreno, esposizione alla luce, fabbisogno d'acqua, temperatura ideale).\n`;
+                }
+                
+                // L'URL della nostra funzione Netlify
+                const functionUrl = '/.netlify/functions/analyze-image';
+
+                // I dati da inviare alla nostra funzione
+                const requestBody = {
+                    imageBase64Data: imageBase64Data,
+                    prompt: prompt
+                };
+
+                const response = await fetch(functionUrl, {
+                    method: 'POST',
+                    body: JSON.stringify(requestBody)
+                });
+                
+                if (!response.ok) {
+                    const errorResult = await response.json();
+                    throw new Error(errorResult.error || 'Errore sconosciuto dalla funzione server.');
+                }
+
+                const result = await response.json();
+                const text = result.candidates?.[0]?.content?.parts?.[0]?.text;
+
+                if (text) {
+                    showResult(text);
+                } else {
+                    throw new Error("La risposta dell'API non conteneva testo valido.");
+                }
+
+            } catch (error) {
+                console.error("Errore durante la chiamata alla funzione:", error);
+                showError(`Si è verificato un errore durante l'analisi. Dettagli: ${error.message}`);
+            } finally {
+                loader.classList.add('hidden');
+                recognizeBtn.disabled = false;
+            }
+        });
+        
+        // Funzione per mostrare il risultato
+        function showResult(text) {
+            // Converte il Markdown di base in HTML
+            let htmlContent = text
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                .replace(/^\d+\.\s+<strong/gm, '<h4 class="text-lg font-semibold text-green-800 mt-4 mb-2"><strong')
+                .replace(/\n/g, '<br>');
+
+            const nameMatch = text.match(/Nome Comune:[\s*]*<strong>(.*?)<\/strong>/);
+            const scientificNameMatch = text.match(/Nome Scientifico:[\s*]*<em>(.*?)<\/em>/);
+
+            let title = "Risultato dell'Analisi";
+            if (nameMatch && nameMatch[1]) {
+                title = nameMatch[1];
+            }
+            
+            let scientificName = "";
+            if(scientificNameMatch && scientificNameMatch[1]){
+                scientificName = `<h3>${scientificNameMatch[1]}</h3>`;
+            }
+
+            resultCard.innerHTML = `
+                <h2>${title}</h2>
+                ${scientificName}
+                <div class="mt-4">${htmlContent.replace(/.*?Descrizione Generale:/, '').replace(/<strong>Descrizione Generale:<\/strong>/, '')}</div>
+            `;
+            resultCard.classList.remove('hidden');
+        }
+
+        // Funzione per mostrare un errore
+        function showError(message) {
+            errorMessage.textContent = message;
+            errorCard.classList.remove('hidden');
+        }
+        
+        // Gestione pulsante Reset
+        resetBtn.addEventListener('click', () => {
+             uploadContainer.classList.remove('hidden');
+             imagePreviewContainer.classList.add('hidden');
+             resultCard.classList.add('hidden');
+             errorCard.classList.add('hidden');
+             loader.classList.add('hidden');
+             imageInput.value = '';
+             imageBase64Data = null;
+             // Deseleziona tutte le checkbox
+             document.querySelectorAll('#analysis-options input[type="checkbox"]').forEach(cb => cb.checked = false);
+        });
+
+        // Gestione Modale Privacy
+        privacyLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            privacyModal.classList.remove('hidden');
+        });
+
+        const closeModal = () => {
+            privacyModal.classList.add('hidden');
+        };
+
+        closeModalBtn.addEventListener('click', closeModal);
+        privacyModal.addEventListener('click', (e) => {
+            if (e.target === privacyModal) {
+                closeModal();
+            }
+        });
+
+    </script>
+</body>
+</html>
